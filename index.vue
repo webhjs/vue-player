@@ -109,6 +109,12 @@ export default {
         this.$refs.controls.style.opacity = 0
       }, 1000)
     })
+    // 监听退出全屏功能
+    window.addEventListener('fullscreenchange', () => {
+      if (!document.fullscreenElement) {
+        this.fullscreen = false
+      }
+    })
   },
   methods: {
     // 初始化video
