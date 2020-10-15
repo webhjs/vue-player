@@ -1,7 +1,7 @@
 <template>
   <div class="contain-play" :class="{fullscreen: fullscreen}">
     <div ref="playertarget" class="player">
-      <video id="video" ref="playertargetvideo" src="./lu.mp4" />
+      <video id="video" ref="playertargetvideo" :src="resource" />
       <div ref="controls" class="controls">
         <div class="grey">
           <div ref="progress" class="progress" :style="{width:(currentTime/totalTime*100)+'%'}" />
@@ -13,7 +13,7 @@
         </div>
         <div class="pause">
           <div class="pause_left">
-            <img v-if="playing" :src="resource" @click="switchPlay">
+            <img v-if="playing" src="./img/pause.png" @click="switchPlay">
             <img v-else src="./img/play.png" @click="switchPlay">
           </div>
           <div class="pause_center">{{ currentTime | formateTime }} / {{ totalTime | formateTime }}</div>
