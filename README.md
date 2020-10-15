@@ -10,6 +10,7 @@
   <Player :resource='https://xxx.mp4' />
 </template>
 ```
+>> resource 为video的src加载路径
 ```
 import Player from '@/components/vue-player'
 components:{
