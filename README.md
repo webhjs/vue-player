@@ -6,8 +6,13 @@
 ### 2. 在项目中使用组件:
 
 ```
-import Player from '@/components/player'
-Vue.use({
+<template>
+  <Player :resource='https://xxx.mp4' />
+</template>
+```
+```
+import Player from '@/components/vue-player'
+components:{
   Player
-})
+}
 ```
