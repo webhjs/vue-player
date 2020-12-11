@@ -7,7 +7,7 @@
 
 ```
 <template>
-  <Player :resource='https://xxx.mp4' />
+  <Player ref="m3u8VideoPlay" />
 </template>
 ```
 >> resource 为video的src加载路径
@@ -15,5 +15,13 @@
 import Player from '@/components/vue-player'
 components:{
   Player
+},
+methods: {
+  videoPlay() {
+    this.$refs.m3u8VideoPlay.videoPlay({
+      videoUlr: '',
+      ...
+    })
+  }
 }
 ```
