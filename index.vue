@@ -120,8 +120,8 @@ export default {
   methods: {
     // video传值
     videoPlay(value) {
-      const url = value.videoUrl && value.videoUrl.match(/.*?:(.*)/)
-      this.initVideo(url[1])
+      const url = value.videoUrl
+      this.initVideo(url)
     },
     // 初始化video
     initVideo(url) {
