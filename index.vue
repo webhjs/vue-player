@@ -1,7 +1,7 @@
 <template>
   <div class="contain-play" :class="{fullscreen: fullscreen}">
     <div ref="playertarget" class="player">
-      <video id="video" ref="playertargetvideo" :src="resource" />
+      <video id="video" ref="playertargetvideo" />
       <div ref="controls" class="controls">
         <div class="grey">
           <div ref="progress" class="progress" :style="{width:(currentTime/totalTime*100)+'%'}" />
@@ -49,6 +49,7 @@
 </template>
 
 <script>
+import Hls from 'hls.js'
 export default {
   filters: {
     formateTime(data) {
@@ -61,12 +62,6 @@ export default {
       m = m > 10 ? m : '0' + m
       s = s > 10 ? s : '0' + s
       return `${h}:${m}:${s}`
-    }
-  },
-  props: {
-    resource: {
-      type: String,
-      default: ''
     }
   },
   data() {
@@ -85,7 +80,6 @@ export default {
     }
   },
   mounted() {
-    this.initVideo()
     let timer = null
     this.$refs.playertarget.addEventListener('mouseenter', (e) => {
       this.$refs.controls.style.opacity = 1
@@ -116,10 +110,30 @@ export default {
       }
     })
   },
+  beforeDestroy() {
+    if (this.Hls) { // 销毁时取消事件监听
+      this.$refs.playertargetvideo.pause()
+      this.Hls.destroy()
+      this.Hls = null
+    }
+  },
   methods: {
+    // video传值
+    videoPlay(value) {
+      const url = value.videoUrl && value.videoUrl.match(/.*?:(.*)/)
+      this.initVideo(url[1])
+    },
     // 初始化video
-    initVideo() {
+    initVideo(url) {
       this.$video = document.getElementById('video')
+      if (Hls.isSupported() && url) {
+        var hls = new Hls()
+        hls.loadSource(url)
+        hls.attachMedia(this.$video)
+        hls.on(Hls.Events.MANIFEST_PARSED, function() {
+          this.$video.play()
+        })
+      }
       // 监听缓存进度
       this.$video.addEventListener('progress', () => {
         console.log('progress')
@@ -321,6 +335,9 @@ export default {
       }
     }
   }
+}
+#video{
+  background:#fff;
 }
 .contain-play {
   height: 100%;
