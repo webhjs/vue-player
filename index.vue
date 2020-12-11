@@ -126,13 +126,18 @@ export default {
     // 初始化video
     initVideo(url) {
       this.$video = document.getElementById('video')
-      if (Hls.isSupported() && url) {
-        var hls = new Hls()
-        hls.loadSource(url)
-        hls.attachMedia(this.$video)
-        hls.on(Hls.Events.MANIFEST_PARSED, function() {
-          this.$video.play()
-        })
+      if (!url) return
+      if (url.match(/.*\.(.*)/)[1].toLowerCase() === 'mp4') {
+        this.$video.src = url
+      } else {
+        if (Hls.isSupported()) {
+          var hls = new Hls()
+          hls.loadSource(url)
+          hls.attachMedia(this.$video)
+          hls.on(Hls.Events.MANIFEST_PARSED, function() {
+            this.$video.play()
+          })
+        }
       }
       // 监听缓存进度
       this.$video.addEventListener('progress', () => {
