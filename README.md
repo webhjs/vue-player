@@ -25,4 +25,4 @@ methods: {
   }
 }
 ```
-![sketch.png](sketch.png)
+![player](https://webhjs.github.io/su/img/player.png)
